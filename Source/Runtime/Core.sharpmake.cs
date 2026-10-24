@@ -1,0 +1,27 @@
+// CopyRight FlareHorz Team. All Rights Reserved.
+
+using Sharpmake;
+
+[module: Include("../Module.sharpmake.cs")]
+
+[Generate]
+public class CoreModule : RuntimeModule
+{
+	public CoreModule() : base("Core", ModuleType.Core) { }
+	
+	[Configure]
+	public override void ConfigureAll(Project.Configuration conf, FlareTarget target)
+	{
+		base.ConfigureAll(conf, target);
+		
+		// Exposed dependencies
+		{
+			// ...
+		}
+		
+		// Hidden dependencies
+		{
+			// ...
+		}
+	}
+}
