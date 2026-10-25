@@ -1,12 +1,14 @@
 # CopyRight FlareHorz Team. All Rights Reserved.
 
+
 .vs/
 .vscode/
 .idea/
 
-Binaries/
-Intermediate/
-
 *.sln
 *.sln.DotSettings
 *.sln.DotSettings.User
+
+Binaries/
+Intermediate/
+

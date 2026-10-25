@@ -39,18 +39,4 @@ public:
 	 * - positive if A comes after string B alphabetically.
 	 */
 	static int32 Compare(const TCHAR* A, const TCHAR* B, ETextCase CaseSensitivity);
-
-	//@TODO: revisit this
-	static TCHAR* MoveTextToHeap(const TCHAR* Text)
-	{
-		const SIZE_T Lenght = StrLen(Text);
-
-		TCHAR* Name = SMemory::Malloc<TCHAR>(Lenght + 1); 
-		for (SIZE_T i = 0; i <= Lenght; ++i)
-		{
-			Name[i] = Text[i];
-		}
-	
-		return Name;
-	}
 };

@@ -24,7 +24,7 @@ public:
 	 */
 	void	RequestExit(const TCHAR* Reason);
 
-	FORCEINLINE bool IsExitRequested() const arrow(bRequestingExit)
+	FORCEINLINE bool IsExitRequested() const arrow (bRequestingExit)
 	
 private:
 	/** Indicates that main loop should be exited at the end of the current iteration */

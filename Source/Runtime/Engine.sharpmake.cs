@@ -5,10 +5,8 @@ using Sharpmake;
 [module: Include("../Module.sharpmake.cs")]
 
 [Generate]
-public class EngineModule : RuntimeModule
+public class EngineModule() : RuntimeModule("Engine")
 {
-	public EngineModule() : base("Engine") { }
-	
 	[Configure]
 	public override void ConfigureAll(Project.Configuration conf, FlareTarget target)
 	{

@@ -7,7 +7,7 @@
 #include "LogVerbosity.h"
 #include "Platform/Platform.h"
 
-#define ENABLE_MISC_LOGS 1
+#define ENABLE_MISC_LOGS 0
 
 struct SLogCategoryBase;
 
@@ -21,8 +21,9 @@ namespace Flare::Core::Private
 
 #if ENABLE_MISC_LOGS
 	constexpr ELogVerbosity GMiscLogsSeverity = ELogVerbosity::Trace;
-	constexpr int32 GCategoryPadding = 15;
 #endif
+
+	constexpr int32 GCategoryPadding = 15;
 }
 
 #define FH_LOG(Verbosity, Category, Format, ...) \

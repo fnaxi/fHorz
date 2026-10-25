@@ -15,7 +15,7 @@ class CModuleInfo
 public:
 	CModuleInfo(IModuleInterface* InInterface)
 		: Module(InInterface)
-		, LoadOrder(CurrentLoadOrder++)
+		, MountOrder(CurrentMountOrder++)
 	{ }
 
 	~CModuleInfo() = default;
@@ -23,17 +23,17 @@ public:
 	/** The module object for this module. We actually *own* this module, so it's lifetime is controlled by the scope of this shared pointer. */
 	TUniquePtr<IModuleInterface> Module;
 	
-	/** True if this module is full loaded and ready to be used */
+	/** True if this module is mounted and ready to be used */
 	bool			bReady = false;
 
-	/** True if this module was unloaded at shutdown time, and we never want it to be loaded again */
-	bool			bWasUnloadedAtShutdown = false;
+	/** True if this module was detached at shutdown time, and we never want it to be mounted again. */
+	bool			bWasDetachedAtShutdown = false;
 
-	/** Arbitrary number that encodes the load order of this module, so we can shut them down in reverse order. */
-	int32			LoadOrder;
+	/** Arbitrary number that encodes the mount order of this module, so we can shut them down in reverse order. */
+	int32			MountOrder;
 	
-	/** Static that tracks the current load number. Incremented whenever a new module is loaded. */
-	static int32	CurrentLoadOrder;
+	/** Static that tracks the current mount number. Incremented whenever a new module is mounted. */
+	static int32	CurrentMountOrder;
 };
 
 class CModuleManager final

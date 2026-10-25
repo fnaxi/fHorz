@@ -5,10 +5,8 @@ using Sharpmake;
 [module: Include("../Module.sharpmake.cs")]
 
 [Generate]
-public class LaunchModule : RuntimeModule
+public class LaunchModule() : RuntimeModule("Launch", EModuleType.Launch)
 {
-	public LaunchModule() : base("Launch", ModuleType.Launch) { }
-	
 	[Configure]
 	public override void ConfigureAll(Project.Configuration conf, FlareTarget target)
 	{
@@ -24,6 +22,6 @@ public class LaunchModule : RuntimeModule
 			conf.AddPrivateDependency<EngineModule>(target);
 		}
 		
-		conf.TargetFileName = "fHorz-[target.conf]-[target.type]-[target.Platform]";
+		conf.TargetFileName = "fHorz-[target.Conf]-[target.Build]-[target.Platform]";
 	}
 }

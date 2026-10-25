@@ -19,13 +19,22 @@ public class FlareHorzSolution : Solution
 		IsFileNameToLower = false;
 		
 		AddTargets( Utils.GetTargets().ToArray() );
+		
+		ExtraItems.Add("Solution", new Strings
+		(
+			"README.md", ".gitignore"
+		));
+		ExtraItems.Add("Solution/Images", new Strings
+		(
+			"Images/Logo.png", "Images/Logo.ico"
+		));
 	}
 
 	[Configure]
 	public void ConfigureAll(Solution.Configuration conf, FlareTarget target)
 	{
 		conf.SolutionPath = Path.Combine("[solution.SharpmakeCsPath]", "..");
-		conf.Name = "[target.conf] / [target.type]";
+		conf.Name = "[target.Conf] / [target.Build]";
 		conf.PlatformName = "Win64";
 
 		conf.AddProject<CoreModule>(target);

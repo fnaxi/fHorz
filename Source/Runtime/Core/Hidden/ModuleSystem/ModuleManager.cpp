@@ -9,7 +9,7 @@
 
 DEFINE_PRIVATE_LOG_CATEGORY(lModuleManager, All)
 
-int32 CModuleInfo::CurrentLoadOrder = 1;
+int32 CModuleInfo::CurrentMountOrder = 1;
 
 CModuleManager& CModuleManager::Get()
 {
@@ -38,7 +38,7 @@ IModuleInterface* CModuleManager::MountModule(const SName Name)
 		return nullptr;
 	}
 
-	if (ModuleInfo->bWasUnloadedAtShutdown)
+	if (ModuleInfo->bWasDetachedAtShutdown)
 	{
 		FH_LOG(Error, lModuleManager, "Module %s was detached at shutdown!", *Name)
 		return nullptr;
@@ -116,7 +116,7 @@ void CModuleManager::DetachModulesAtShutdown()
 	int32 MaxLoadOrder = 0;
 	for (const TPair<SName, TSharedPtr<CModuleInfo>>& Module : Modules)
 	{
-		MaxLoadOrder = SMath::Max(Module.Value->LoadOrder, MaxLoadOrder);
+		MaxLoadOrder = SMath::Max(Module.Value->MountOrder, MaxLoadOrder);
 	}
 
 	TArray<SName> ModuleNames;
@@ -131,7 +131,7 @@ void CModuleManager::DetachModulesAtShutdown()
 		{
 			const SName& Name = ModuleNames[i];
 			
-			if (Modules[Name]->LoadOrder == Order)
+			if (Modules[Name]->MountOrder == Order)
 			{
 				if (IsModuleMounted(Name))
 				{
@@ -139,7 +139,7 @@ void CModuleManager::DetachModulesAtShutdown()
 				}
 				if (TSharedPtr<CModuleInfo> ModuleInfo = FindModule(Name))
 				{
-					ModuleInfo->bWasUnloadedAtShutdown = true;
+					ModuleInfo->bWasDetachedAtShutdown = true;
 				}
 			}
 		}
