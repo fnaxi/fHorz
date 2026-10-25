@@ -1,7 +1,9 @@
 // CopyRight FlareHorz Team. All Rights Reserved.
 
+using System.Collections.Generic;
 using Sharpmake;
 using System.IO;
+using System.Linq;
 
 [Generate]
 public class RulesSolution : CSharpSolution
@@ -28,7 +30,7 @@ public class RulesSolution : CSharpSolution
 	[Configure]
 	public void ConfigureAll(Solution.Configuration conf, Target target)
 	{
-		conf.SolutionPath = Path.Combine("[solution.SharpmakeCsPath]", "..");
+		conf.SolutionPath = Path.Combine("[solution.SharpmakeCsPath]", "..", "..");
 	
 		conf.AddProject<RulesProject>(target);
 	}
@@ -41,8 +43,9 @@ public class RulesProject : CSharpProject
 	{
 		Name = "FlareRules";
 		IsFileNameToLower = false;
-		
-		SourceRootPath = Path.Combine("[project.SharpmakeCsPath]");
+
+		// SourceRootPath = @"[project.SharpmakeCsPath]";
+		SourceRootPath = Path.Combine(Directory.GetCurrentDirectory(), "Source/Sharpmake");
 
 		AddTargets(new Target
 		{
@@ -54,16 +57,16 @@ public class RulesProject : CSharpProject
 	}
 
 	[Configure]
-	public void ConfigureAll(Configuration conf, Target target)
+	public void ConfigureAll(Project.Configuration conf, Target target)
 	{
 		conf.Output = Configuration.OutputType.DotNetClassLibrary;
 		
-		conf.ProjectPath = Path.Combine("[project.SharpmakeCsPath]", "..", "Intermediate");
+		conf.ProjectPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Intermediate");
 
-		conf.TargetPath = Path.Combine("[project.SharpmakeCsPath]", "..", "Binaries");
-		conf.IntermediatePath = Path.Combine("[project.SharpmakeCsPath]", "..", "Intermediate");
+		conf.TargetPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Binaries");
+		conf.IntermediatePath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Intermediate");
 
-		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "Tools", "Sharpmake", "Sharpmake.dll"));
-		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "Tools", "Sharpmake", "Sharpmake.Application.exe"));
+		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Tools", "Sharpmake", "Sharpmake.dll"));
+		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Tools", "Sharpmake", "Sharpmake.Application.exe"));
 	}
 }

@@ -1,5 +1,6 @@
 // CopyRight FlareHorz Team. All Rights Reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Sharpmake;
@@ -23,11 +24,11 @@ public abstract class FlareProject : Project
 	public virtual void ConfigureAll(Project.Configuration conf, FlareTarget target)
 	{
 		// .vcxproj files
-		conf.ProjectPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Intermediate");
+		conf.ProjectPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Intermediate");
 
 		// Binaries / Intermediate
-		conf.TargetPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Binaries");
-		conf.IntermediatePath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Intermediate", "[target.Name]", "[project.Name]");
+		conf.TargetPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Binaries");
+		conf.IntermediatePath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Intermediate", "[target.Name]", "[project.Name]");
 	}
 
 	protected string BoolDefine(string Define, bool bValue) => $"{Define}=" + (bValue ? "1" : "0");
@@ -42,7 +43,7 @@ public abstract class ModuleBase : FlareProject
 	{
 		ModType = InModType;
 		
-		SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Source", group.ToString(), Name);
+		SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Source", group.ToString(), Name);
 	}
 
 	public override void ConfigureAll(Configuration conf, FlareTarget target)
@@ -77,11 +78,11 @@ public abstract class ModuleBase : FlareProject
 		conf.IncludePrivatePaths.Add(Path.Combine(SourceRootPath, "Hidden"));
 		 
 		// Force modules registration
-		string SourceDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Source");
+		string SourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Source");
 		if (ModType == EModuleType.Launch)
 		{
-			List<string> Categories = Directory.GetDirectories(SourceDirectory, "*", SearchOption.TopDirectoryOnly)
-				.Where(x => !x.EndsWith("ModuleTemplate")).ToList();
+			List<string> Categories = Directory.GetDirectories(SourcePath, "*", SearchOption.TopDirectoryOnly)
+				.Where(x => !x.EndsWith("Sharpmake") && !x.EndsWith("ThirdParty")).ToList();
 			foreach (string Category in Categories)
 			{
 				string[] Modules = Directory.GetDirectories(Category, "*", SearchOption.TopDirectoryOnly);
@@ -164,18 +165,26 @@ public abstract class RuntimeModule(string InName, EModuleType InModType = EModu
 
 public abstract class ThirdPartyModule : FlareProject
 {
-	public ThirdPartyModule(string InName) : base(InName)
+	private string IncludeDirectory;
+	private string SourceDirectory;
+
+	public ThirdPartyModule(string InName, string InIncludeDirectory = "include", string InSourceDirectory = "source") : base(InName)
 	{
-		SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Source", "ThirdParty", Name);
+		IncludeDirectory = InIncludeDirectory;
+		SourceDirectory = InSourceDirectory;
+
+		SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Source", "ThirdParty", Name);
 	}
 	
 	public override void ConfigureAll(Project.Configuration conf, FlareTarget target)
 	{
 		base.ConfigureAll(conf, target);
-
+		
 		conf.SolutionFolder = "ThirdParty";
 		
-		conf.IncludePaths.Add(Path.Combine(SourceRootPath, "source"));
-		conf.IncludePrivatePaths.Add(Path.Combine(SourceRootPath, "include"));
+		conf.Output = Configuration.OutputType.Lib;
+		
+		conf.IncludePaths.Add(Path.Combine(SourceRootPath, IncludeDirectory));
+		// conf.IncludePrivatePaths.Add(Path.Combine(SourceRootPath, SourceDirectory));
 	}
 }

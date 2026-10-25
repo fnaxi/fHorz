@@ -33,14 +33,22 @@ public class FlareHorzSolution : Solution
 	[Configure]
 	public void ConfigureAll(Solution.Configuration conf, FlareTarget target)
 	{
-		conf.SolutionPath = Path.Combine("[solution.SharpmakeCsPath]", "..");
+		conf.SolutionPath = Path.Combine("[solution.SharpmakeCsPath]", "..", "..");
 		conf.Name = "[target.Conf] / [target.Build]";
 		conf.PlatformName = "Win64";
 
-		conf.AddProject<CoreModule>(target);
-		conf.AddProject<LaunchModule>(target);
+		// Runtime
+		{
+			conf.AddProject<CoreModule>(target);
+			conf.AddProject<LaunchModule>(target);
 
-		conf.AddProject<EngineModule>(target);
+			conf.AddProject<EngineModule>(target);
+		}
+		
+		// Third-Party
+		{
+			// conf.AddProject<SDL3Module>(target);
+		}
 	}
 }
 
