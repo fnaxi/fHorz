@@ -3,6 +3,7 @@
 
 #include "CoreModule.h"
 
+#include "Misc/CommandLine.h"
 #include "ModuleSystem/ModuleManager.h"
 
 void CCoreModule::MountModule()

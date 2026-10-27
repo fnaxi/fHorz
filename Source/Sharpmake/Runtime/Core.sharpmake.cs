@@ -12,12 +12,12 @@ public class CoreModule() : RuntimeModule("Core", EModuleType.Core)
 	{
 		base.ConfigureAll(conf, target);
 		
-		// Exposed dependencies
+		// Public dependencies
 		{
 			// ...
 		}
 		
-		// Hidden dependencies
+		// Private dependencies
 		{
 			// ...
 		}

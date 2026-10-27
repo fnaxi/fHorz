@@ -12,12 +12,13 @@ public class EngineModule() : RuntimeModule("Engine")
 	{
 		base.ConfigureAll(conf, target);
 		
-		// Exposed dependencies
+		// Public dependencies
 		{
 			conf.AddPublicDependency<CoreModule>(target);
+			conf.AddPublicDependency<SDL3Module>(target);
 		}
 		
-		// Hidden dependencies
+		// Private dependencies
 		{
 			// ...
 		}

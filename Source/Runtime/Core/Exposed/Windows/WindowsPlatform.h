@@ -2,7 +2,7 @@
 
 #pragma once
 
-#define DEBUG_BREAK() __debugbreak()
+#define PLATFORM_BREAK() (__nop(), __debugbreak())
 
 struct SWindowsPlatformTypes
 {

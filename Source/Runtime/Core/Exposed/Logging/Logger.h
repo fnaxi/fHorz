@@ -7,7 +7,7 @@
 #include "LogVerbosity.h"
 #include "Platform/Platform.h"
 
-#define ENABLE_MISC_LOGS 0
+#define ENABLE_MISC_LOGS 1
 
 struct SLogCategoryBase;
 
@@ -20,7 +20,7 @@ namespace Flare::Core::Private
 	void BasicLog(ELogVerbosity LogVerbosity, const TCHAR* Category, const TCHAR* Format, ...);
 
 #if ENABLE_MISC_LOGS
-	constexpr ELogVerbosity GMiscLogsSeverity = ELogVerbosity::Trace;
+	constexpr ELogVerbosity GMiscLogsSeverity = ELogVerbosity::Debug;
 #endif
 
 	constexpr int32 GCategoryPadding = 15;
@@ -28,7 +28,10 @@ namespace Flare::Core::Private
 
 #define FH_LOG(Verbosity, Category, Format, ...) \
 	{ \
-		Flare::Core::Private::CategorizedLog(ELogVerbosity::Verbosity, Category, Format, ##__VA_ARGS__); \
+		if( !Category.IsSuppressed(ELogVerbosity::Verbosity) ) \
+		{ \
+			Flare::Core::Private::CategorizedLog(ELogVerbosity::Verbosity, Category, Format, ##__VA_ARGS__); \
+		} \
 	}
 
 #if ENABLE_MISC_LOGS

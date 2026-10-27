@@ -2,10 +2,13 @@
 
 
 #include "LaunchContext.h"
+#include "Misc/CommandLine.h"
+
+#include "SDL3/SDL_main.h"
 
 CLaunchContext GLaunchContext;
 
-int32 main(int32 ArgC, TCHAR* ArgV[])
+int32 GuardedMain()
 {
 	// Make sure Shutdown() is always called
 	struct SLaunchCleanupGuard
@@ -15,8 +18,8 @@ int32 main(int32 ArgC, TCHAR* ArgV[])
 			GLaunchContext.Shutdown();
 		}
 	} CleanupGuard;
-
-	int32 ErrorLevel = GLaunchContext.PreInitialize(ArgC, ArgV);
+	
+	int32 ErrorLevel = GLaunchContext.Configure();
 	if (ErrorLevel != 0)
 	{
 		return ErrorLevel;
@@ -29,6 +32,27 @@ int32 main(int32 ArgC, TCHAR* ArgV[])
 	}
 
 	GLaunchContext.RunEngineLoop();
+	
+	return ErrorLevel;
+}
+
+int32 main(int32 ArgC, TCHAR* ArgV[])
+{
+	CCommandLine::Get().Initialize(ArgC, ArgV);
+
+	int32 ErrorLevel = 0;
+	// __try
+	{
+		//@TODO: crash reporting
+		
+		// Run the guarded code.
+		ErrorLevel = GuardedMain( );
+	}
+	// __except(  )
+	{
+		// Avoid warning C6322: Empty __except block
+		// (void)0;
+	}
 	
 	return ErrorLevel;
 }

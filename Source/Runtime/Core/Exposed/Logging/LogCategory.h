@@ -30,19 +30,14 @@
  */
 struct SLogCategoryBase
 {
-	SLogCategoryBase(const TCHAR* InName, const ELogVerbosity InDefaultVerbosity)
-	{
-		Name = InName;
-		Verbosity = InDefaultVerbosity;
-		DefaultVerbosity = InDefaultVerbosity;
-	}
+	SLogCategoryBase(const TCHAR* InName, ELogVerbosity InDefaultVerbosity);
 
-	[[nodiscard]] const SName& GetName() const arrow(Name)
+	[[nodiscard]] const SName& GetName() const arrow (Name)
 	
-	[[nodiscard]] ELogVerbosity GetVerbosity() const arrow(Verbosity)
+	[[nodiscard]] ELogVerbosity GetVerbosity() const arrow (Verbosity)
 	void SetVerbosity(const ELogVerbosity NewVerbosity) { Verbosity = NewVerbosity; }
 
-	FORCEINLINE bool IsSuppressed(const ELogVerbosity VerbosityToTest) const arrow( VerbosityToTest > Verbosity )
+	FORCEINLINE bool IsSuppressed(const ELogVerbosity VerbosityToTest) const arrow( VerbosityToTest >= Verbosity )
 	
 private:
 	SName Name;
@@ -50,5 +45,3 @@ private:
 	ELogVerbosity Verbosity;
 	ELogVerbosity DefaultVerbosity;
 };
-
-DECLARE_LOG_CATEGORY(lCore, All)

@@ -11,6 +11,6 @@
  * // C#
  * public bool IsValid() => bValid;
  * // C++
- * bool IsValid() const TRAILING(bValid)
+ * bool IsValid() const arrow (bValid)
  */
 #define arrow(x) { return x; }

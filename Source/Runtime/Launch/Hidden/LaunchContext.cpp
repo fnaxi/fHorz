@@ -4,25 +4,21 @@
 #include "LaunchContext.h"
 
 #include "Engine.h"
+#include "Logging/Logger.h"
 #include "ModuleSystem/ModuleManager.h"
 
-int32 CLaunchContext::PreInitialize(int32 ArgC, TCHAR* ArgV[])
+int32 CLaunchContext::Configure()
 {
-	//@TODO: Command line
-	return PreInitialize("");
-}
+	//CModuleManager::Get().MountModule("Core");
 
-int32 CLaunchContext::PreInitialize(const TCHAR* CmdLine)
-{
-	CModuleManager::Get().MountModule("Core");
-	
 	return 0;
 }
 
 int32 CLaunchContext::Initialize()
 {
-	CModuleManager::Get().MountModule("Engine");
-	
+	CModuleManager::Get().MountModuleEnsured("Engine");
+	STRICT_ENSURE_M(GEngine, "Failed to create global engine instance!");
+
 	return 0;
 }
 

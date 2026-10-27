@@ -106,7 +106,7 @@ public abstract class ModuleBase : FlareProject
 		conf.Defines.Add(BoolDefine("CONFIGURATION_SHIPPING",		target.Conf == EConf.Shipping));
 		
 		conf.Options.Add(Options.Vc.General.WarningLevel.Level3);
-		conf.Options.Add(Options.Vc.Compiler.CppLanguageStandard.CPP17);
+		conf.Options.Add(Options.Vc.Compiler.CppLanguageStandard.CPP20);
 		// conf.Options.Add(Options.Vc.Compiler.Exceptions.Disable);
 		// conf.Options.Add(Options.Vc.General.WindowsTargetPlatformVersion.Latest);
 		
@@ -146,7 +146,7 @@ public abstract class ModuleBase : FlareProject
 				conf.Defines.Add("PLATFORM_NAME=Windows");
 				break;
 			default:
-				Debug.Assert(false);
+				Trace.Assert(false);
 				break;
 		}
 	}
@@ -170,21 +170,20 @@ public abstract class ThirdPartyModule : FlareProject
 
 	public ThirdPartyModule(string InName, string InIncludeDirectory = "include", string InSourceDirectory = "source") : base(InName)
 	{
-		IncludeDirectory = InIncludeDirectory;
-		SourceDirectory = InSourceDirectory;
+		IncludeDirectory	= InIncludeDirectory;
+		SourceDirectory		= InSourceDirectory;
 
-		SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Source", "ThirdParty", Name);
+		SourceRootPath		= Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Source", "ThirdParty", Name);
 	}
 	
 	public override void ConfigureAll(Project.Configuration conf, FlareTarget target)
 	{
 		base.ConfigureAll(conf, target);
 		
-		conf.SolutionFolder = "ThirdParty";
-		
-		conf.Output = Configuration.OutputType.Lib;
-		
+		conf.SolutionFolder	= "ThirdParty";
+		conf.Output			= Configuration.OutputType.Lib;
+
 		conf.IncludePaths.Add(Path.Combine(SourceRootPath, IncludeDirectory));
-		// conf.IncludePrivatePaths.Add(Path.Combine(SourceRootPath, SourceDirectory));
+		//conf.IncludePrivatePaths.Add(Path.Combine(SourceRootPath, SourceDirectory));
 	}
 }

@@ -30,7 +30,7 @@ int32 CNameTable::FindOrAdd(const TCHAR* Text)
 	// check if name already exists
 	for (int32 i = 0; i < Entries.Num(); ++i)
 	{
-		if (CTextHelpers::Compare(Entries[i].Name, Text, ETextCase::IgnoreCase) == 0)
+		if (STextHelpers::Compare(Entries[i].Name, Text, ETextCase::IgnoreCase) == 0)
 		{
 			return i;
 		}

@@ -3,5 +3,10 @@
 
 #include "Logging/LogCategory.h"
 
-DEFINE_LOG_CATEGORY(lCore)
+SLogCategoryBase::SLogCategoryBase(const TCHAR* InName, const ELogVerbosity InDefaultVerbosity)
+{
+	Name = InName;
+	Verbosity = InDefaultVerbosity;
+	DefaultVerbosity = InDefaultVerbosity;
+}
 

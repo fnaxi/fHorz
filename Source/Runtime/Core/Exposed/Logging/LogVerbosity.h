@@ -19,7 +19,7 @@ enum class ELogVerbosity : uint8
 	Error			= 2,
 
 	/** Prints a warning to log file. */
-	Warning			= 3,
+	Warn			= 3,
 
 	/** Prints a message to a log file. */
 	Info			= 4,

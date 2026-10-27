@@ -1,6 +1,5 @@
 # CopyRight FlareHorz Team. All Rights Reserved.
 
-
 .vs/
 .vscode/
 .idea/
@@ -12,3 +11,5 @@
 Binaries/
 Intermediate/
 
+# sharpmake
+*_runtimedependencies.txt

@@ -3,12 +3,12 @@
 
 #include "Containers/TextHelpers.h"
 
-SIZE_T CTextHelpers::StrLen(const TCHAR* Text)
+SIZE_T STextHelpers::StrLen(const TCHAR* Text)
 {
 	return std::strlen(Text);
 }
 
-int32 CTextHelpers::Compare(const TCHAR* A, const TCHAR* B, const ETextCase CaseSensitivity)
+int32 STextHelpers::Compare(const TCHAR* A, const TCHAR* B, const ETextCase CaseSensitivity)
 {
 	if (CaseSensitivity == ETextCase::CaseSensitive)
 	{

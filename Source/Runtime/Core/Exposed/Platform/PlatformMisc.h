@@ -4,4 +4,4 @@
 
 #include "Misc/PreprocessorHelpers.h"
 
-#include PLATFORM_HEADER(PlatformMemory.h)
+#include PLATFORM_HEADER(PlatformMisc.h)

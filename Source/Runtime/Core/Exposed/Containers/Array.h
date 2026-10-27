@@ -6,7 +6,7 @@
 #include <initializer_list>
 
 #include "Memory/Memory.h"
-#include "Misc/AssertionMacros.h"
+#include "Misc/Assertions.h"
 
 using ArraySizeType = int32;
 static_assert(std::is_signed_v<ArraySizeType>, "TArray only supports signed index types");
@@ -363,12 +363,12 @@ private:
 
 	[[nodiscard]] ElementType& GetElement(const ArraySizeType Index)
 	{
-		STRICT_ENSURE(IsValidIndex(Index))
+		STRICT_ENSURE(IsValidIndex(Index));
 		return GetData()[Index];
 	}
 	[[nodiscard]] const ElementType& GetElement(const ArraySizeType Index) const
 	{
-		STRICT_ENSURE(IsValidIndex(Index))
+		STRICT_ENSURE(IsValidIndex(Index));
 		return GetData()[Index];
 	}
 	

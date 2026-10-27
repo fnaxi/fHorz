@@ -13,8 +13,7 @@ public:
 	 * 
 	 * @return The error level; 0 if successful, > 0 if there were errors.
 	 */
-	int32	PreInitialize(int32 ArgC, TCHAR* ArgV[]);
-	int32	PreInitialize(const TCHAR* CmdLine);
+	int32	Configure();
 
 	/**
 	 * Create and initialize a global engine instance.

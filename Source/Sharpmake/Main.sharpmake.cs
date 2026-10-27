@@ -8,11 +8,24 @@ using Sharpmake;
 
 [module: Include("Runtime/Engine.sharpmake.cs")]
 
+[module: Include("ThirdParty/SDL3.sharpmake.cs")]
+
 [module: Include("Rules.sharpmake.cs")]
 
 [Generate]
 public class FlareHorzSolution : Solution
 {
+	public void RegisterProjects(Solution.Configuration conf, FlareTarget target)
+	{
+		// Runtime
+		{
+			conf.AddProject<CoreModule>(target);
+			conf.AddProject<LaunchModule>(target);
+
+			conf.AddProject<EngineModule>(target);
+		}
+	}
+
 	public FlareHorzSolution() : base(typeof(FlareTarget))
 	{
 		Name = "fHorz";
@@ -37,18 +50,7 @@ public class FlareHorzSolution : Solution
 		conf.Name = "[target.Conf] / [target.Build]";
 		conf.PlatformName = "Win64";
 
-		// Runtime
-		{
-			conf.AddProject<CoreModule>(target);
-			conf.AddProject<LaunchModule>(target);
-
-			conf.AddProject<EngineModule>(target);
-		}
-		
-		// Third-Party
-		{
-			// conf.AddProject<SDL3Module>(target);
-		}
+		RegisterProjects(conf, target);
 	}
 }
 

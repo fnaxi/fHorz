@@ -7,6 +7,8 @@
 #include "Logging/Logger.h"
 #include "Math/Math.h"
 
+#define LOG_CATEGORY "ModuleManager" // Used in RegisterModule() method
+
 DEFINE_PRIVATE_LOG_CATEGORY(lModuleManager, All)
 
 int32 CModuleInfo::CurrentMountOrder = 1;
@@ -65,7 +67,7 @@ IModuleInterface* CModuleManager::MountModule(const SName Name)
 IModuleInterface* CModuleManager::MountModuleEnsured(const SName Name)
 {
 	IModuleInterface* ModuleInterface = MountModule(Name);
-	STRICT_ENSURE_M(ModuleInterface, "Failed to mount %s module!", *Name)
+	STRICT_ENSURE_M(ModuleInterface, "Failed to mount %s module!", *Name);
 	
 	return ModuleInterface;
 }
@@ -75,7 +77,7 @@ void CModuleManager::DetachModule(const SName Name)
 	TSharedPtr<CModuleInfo> ModuleInfo = FindModule(Name);
 	if (!ModuleInfo || !ModuleInfo->bReady)
 	{
-		FH_LOG(Warning, lModuleManager, "DetachModule() was called but module %s is already detached!", *Name)
+		FH_LOG(Warn, lModuleManager, "DetachModule() was called but module %s is already detached!", *Name)
 		return;
 	}
 
@@ -95,7 +97,6 @@ bool CModuleManager::IsModuleMounted(const SName Name) const
 
 void CModuleManager::RegisterModule(const TCHAR* Name, const CInitializeModuleFunction& InitializeFunction)
 {
-#define LOG_CATEGORY "ModuleManager"
 	if (Modules.Contains(Name)) return;
 
 	if (IModuleInterface* Module = InitializeFunction())
@@ -108,7 +109,6 @@ void CModuleManager::RegisterModule(const TCHAR* Name, const CInitializeModuleFu
 	{
 		FH_MISC_LOG(Error, "The module %s was not constructed properly!", Name)
 	}
-#undef LOG_CATEGORY
 }
 
 void CModuleManager::DetachModulesAtShutdown()
@@ -154,4 +154,6 @@ TSharedPtr<CModuleInfo> CModuleManager::FindModule(const SName& Name) const
 	}
 	return nullptr;
 }
+
+#undef LOG_CATEGORY
 

@@ -12,15 +12,15 @@
  */
 class CString
 {
+	using CharType = TCHAR;
+	
+public:
+
 	enum : uint8
 	{
 		NULL_TERMINATOR = '\0',
 		BLANK_SPACE = ' '
 	};
-	
-	using CharType = TCHAR;
-	
-public:
 	
 	//@TODO: String is only partly implemented
 
@@ -31,7 +31,7 @@ public:
 	template <typename... ArgTypes>
 	[[nodiscard]] static CString Printf(const CharType* Format, ArgTypes&&... Args)
 	{
-		const int32 Size = CTextHelpers::Format(nullptr, 0, Format, SMemory::Forward<ArgTypes>(Args)...);
+		const int32 Size = STextHelpers::Format(nullptr, 0, Format, SMemory::Forward<ArgTypes>(Args)...);
 		if (Size <= 0)
 		{
 			return CString();
@@ -40,7 +40,7 @@ public:
 		CString Result;
 		
 		Result.Buffer.SetNum(Size + 1);
-		CTextHelpers::Format(Result.Buffer.GetData(), Size + 1, Format, SMemory::Forward<ArgTypes>(Args)...);
+		STextHelpers::Format(Result.Buffer.GetData(), Size + 1, Format, SMemory::Forward<ArgTypes>(Args)...);
 		Result.Buffer[Size] = NULL_TERMINATOR;
 		
 		return Result;

@@ -17,7 +17,7 @@ public:
 	void	Tick();
 
 	void	Shutdown();
-	
+
 	/**
 	 * Requests the engine exit as soon as it can safely do so
 	 * The reason string is not optional and should be a useful description of why the engine exit is requested.
@@ -25,10 +25,17 @@ public:
 	void	RequestExit(const TCHAR* Reason);
 
 	FORCEINLINE bool IsExitRequested() const arrow (bRequestingExit)
-	
+
 private:
+	struct SDL_Window* Window;
+	struct SDL_Renderer* Renderer;
+	
 	/** Indicates that main loop should be exited at the end of the current iteration */
 	bool bRequestingExit = false;
+
+	void	PullInput();
+	void	Update();
+	void	Render();
 };
 
 extern ENGINE_API CEngine* GEngine;

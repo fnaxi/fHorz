@@ -38,14 +38,14 @@ struct SName
 	SName(const TCHAR* Text);
 	SName(const class CString& String);
 
-	[[nodiscard]] FORCEINLINE const TCHAR* operator*() const arrow(ToString())
+	[[nodiscard]] FORCEINLINE const TCHAR* operator*() const arrow( ToString() )
 
 	[[nodiscard]] const TCHAR* ToString() const
 	{
 		return CNameTable::Get().GetName(DisplayIndex);
 	}
 	
-	[[nodiscard]] int32 GetIndex() const arrow(DisplayIndex)
+	[[nodiscard]] int32 GetIndex() const arrow (DisplayIndex)
 	
 	bool operator==(const SName& Other) const
 	{

@@ -35,6 +35,11 @@ void Flare::Core::Private::BasicLogV(const ELogVerbosity LogVerbosity, const TCH
 	
 	vprintf(Format, Args);
 	printf("\n");
+
+	if (LogVerbosity == ELogVerbosity::Fatal)
+	{
+		Abort();
+	}
 }
 
 void Flare::Core::Private::BasicLog(const ELogVerbosity LogVerbosity, const TCHAR* Category, const TCHAR* Format, ...)

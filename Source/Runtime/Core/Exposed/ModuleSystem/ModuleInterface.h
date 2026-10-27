@@ -8,9 +8,8 @@ public:
 	/** Note: Even though this is an interface class we need a virtual destructor here because modules are deleted via a pointer to this interface. */
 	virtual ~IModuleInterface() = default;
 
-	virtual void MountModule() { /* ... */ }
-	
-	virtual void DetachModule() { /* ... */ }
+	virtual void MountModule() = 0;
+	virtual void DetachModule() = 0;
 };
 
 /**

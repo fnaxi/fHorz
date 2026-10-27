@@ -10,7 +10,7 @@ CString::CString()
 
 CString::CString(const CharType* Text)
 {
-	const SIZE_T Lenght = CTextHelpers::StrLen(Text);
+	const SIZE_T Lenght = STextHelpers::StrLen(Text);
 	const ArraySizeType Num = static_cast<ArraySizeType>(Lenght);
 
 	Buffer.SetNum(Num + 1);
@@ -28,7 +28,7 @@ CString::CString(const CharType* Text)
 
 void CString::Append(const TCHAR Char)
 {
-	STRICT_ENSURE_M(Buffer.Num() > 0 && Buffer.Last() == NULL_TERMINATOR, "Missing trailing null terminator!")
+	STRICT_ENSURE_M(Buffer.Num() > 0 && Buffer.Last() == NULL_TERMINATOR, "Missing trailing null terminator!");
 	
 	Buffer.Last() = Char;
 	Buffer.Add(NULL_TERMINATOR);

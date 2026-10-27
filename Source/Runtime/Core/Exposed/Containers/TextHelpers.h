@@ -16,9 +16,8 @@ enum class ETextCase : uint8
 	IgnoreCase
 };
 
-class CTextHelpers
+struct STextHelpers
 {
-public:
 	static SIZE_T StrLen(const TCHAR* Text);
 
 	template <typename... ArgTypes>
