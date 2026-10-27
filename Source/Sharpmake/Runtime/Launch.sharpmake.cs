@@ -14,12 +14,12 @@ public class LaunchModule() : RuntimeModule("Launch", EModuleType.Launch)
 
 		// Public dependencies
 		{
-			conf.AddPublicDependency<EngineModule>(target);
+			// ...
 		}
 		
 		// Private dependencies
 		{
-			// ...
+			conf.AddPrivateDependency<EngineModule>(target);
 		}
 		
 		conf.TargetFileName = "fHorz-[target.Conf]-[target.Build]-[target.Platform]";
