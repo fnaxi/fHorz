@@ -5,8 +5,10 @@
 
 #include "Windows/WindowsApi.h"
 
+#if !CONFIGURATION_SHIPPING
 bool SWindowsPlatformMisc::IsDebuggerPresent()
 {
 	return !!::IsDebuggerPresent();
 }
+#endif
 
