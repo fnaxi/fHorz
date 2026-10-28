@@ -36,7 +36,7 @@ int32 GuardedMain()
 	return ErrorLevel;
 }
 
-int32 main(int32 ArgC, TCHAR* ArgV[])
+int32 SDL_main(int32 ArgC, TCHAR* ArgV[])
 {
 	CCommandLine::Get().Initialize(ArgC, ArgV);
 

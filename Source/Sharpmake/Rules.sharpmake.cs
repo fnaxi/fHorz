@@ -66,7 +66,7 @@ public class RulesProject : CSharpProject
 		conf.TargetPath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Binaries");
 		conf.IntermediatePath = Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Intermediate");
 
-		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Tools", "Sharpmake", "Sharpmake.dll"));
-		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Tools", "Sharpmake", "Sharpmake.Application.exe"));
+		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Tools/Sharpmake/Sharpmake.Application/bin/Debug/net8.0", "Sharpmake.dll"));
+		conf.ReferencesByPath.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "..", "Tools/Sharpmake/Sharpmake.Application/bin/Debug/net8.0", "Sharpmake.Application.exe"));
 	}
 }
