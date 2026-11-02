@@ -23,7 +23,9 @@ public class RulesSolution : CSharpSolution
 
 		ExtraItems.Add("Solution", new Strings
 		(
-			"GenerateProjectFiles.bat"
+			"GenerateProjectFiles.bat",
+			"GenerateModule.bat",
+			"GenerateModule.ps1"
 		));
 	}
 
@@ -44,7 +46,6 @@ public class RulesProject : CSharpProject
 		Name = "FlareRules";
 		IsFileNameToLower = false;
 
-		// SourceRootPath = @"[project.SharpmakeCsPath]";
 		SourceRootPath = Path.Combine(Directory.GetCurrentDirectory(), "Source/Sharpmake");
 
 		AddTargets(new Target

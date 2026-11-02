@@ -20,7 +20,7 @@ namespace Flare::Core::Private
 	void BasicLog(ELogVerbosity LogVerbosity, const TCHAR* Category, const TCHAR* Format, ...);
 
 #if ENABLE_MISC_LOGS
-	constexpr ELogVerbosity GMiscLogsSeverity = ELogVerbosity::Debug;
+	constexpr ELogVerbosity GMiscLogsSeverity = ELogVerbosity::Info;
 #endif
 
 	constexpr int32 GCategoryPadding = 15;

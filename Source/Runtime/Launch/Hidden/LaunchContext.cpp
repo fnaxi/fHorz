@@ -7,18 +7,33 @@
 #include "Logging/Logger.h"
 #include "ModuleSystem/ModuleManager.h"
 
-int32 CLaunchContext::Configure()
-{
-	//CModuleManager::Get().MountModule("Core");
+DEFINE_PRIVATE_LOG_CATEGORY(lLaunch, All)
 
+int32 CLaunchContext::PreInitialize()
+{
+	// CModuleManager::Get().MountModuleEnsured("Core");
 	return 0;
 }
 
 int32 CLaunchContext::Initialize()
 {
 	CModuleManager::Get().MountModuleEnsured("Engine");
-	STRICT_ENSURE_M(GEngine, "Failed to create global engine instance!");
+	ENSURE_STRICT(GEngine);
 
+	CModuleManager::Get().MountModuleEnsured("Renderer");
+
+#if WITH_TOOLKIT
+	CModuleManager::Get().MountModule("DebugGUI");
+#endif
+	
+	const int32 InitResult = GEngine->Initialize();
+	if (InitResult != 0)
+	{
+		FH_LOG(Error, lLaunch, "Failed to initialize engine!")
+			
+		return InitResult;
+	}
+	
 	return 0;
 }
 

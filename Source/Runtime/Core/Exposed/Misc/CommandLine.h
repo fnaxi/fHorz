@@ -23,4 +23,3 @@ public:
 private:
 	TCHAR* CmdLine = nullptr;
 };
-

@@ -21,8 +21,6 @@ public:
 		NULL_TERMINATOR = '\0',
 		BLANK_SPACE = ' '
 	};
-	
-	//@TODO: String is only partly implemented
 
 	CString();
 	CString(const CharType* Text);

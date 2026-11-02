@@ -7,13 +7,15 @@ using Sharpmake;
 [module: Include("../Module.sharpmake.cs")]
 
 [Export]
-public class SDL3Module() : ThirdPartyModule("SDL3", "include")
+public class SDL3Module() : ThirdPartyModule("SDL3")
 {
 	[Configure]
 	public override void ConfigureAll(Project.Configuration conf, FlareTarget target)
 	{
 		base.ConfigureAll(conf, target);
-
+		
+		conf.IncludePaths.Add(Path.Combine(SourceRootPath, "include"));
+		
 		string LibPath = "";
 		if (target.Platform == Platform.win64)
 		{

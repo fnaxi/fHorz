@@ -54,8 +54,6 @@ class TMap
 	using PairType = TPair<KeyType, ValueType>;
 	
 public:
-	//@TODO: Maps are only partly implemented
-
 	TMap()
 	{
 		Pairs = TArray<PairType>();

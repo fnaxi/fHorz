@@ -20,6 +20,9 @@ public class LaunchModule() : RuntimeModule("Launch", EModuleType.Launch)
 		// Private dependencies
 		{
 			conf.AddPrivateDependency<EngineModule>(target);
+			
+			// for SDL_main()
+			conf.AddPrivateDependency<SDL3Module>(target);
 		}
 		
 		conf.TargetFileName = "fHorz-[target.Conf]-[target.Build]-[target.Platform]";

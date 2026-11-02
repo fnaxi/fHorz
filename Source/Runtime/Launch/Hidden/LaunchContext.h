@@ -12,7 +12,7 @@ public:
 	 * 
 	 * @return The error level; 0 if successful, > 0 if there were errors.
 	 */
-	int32	Configure();
+	int32	PreInitialize();
 
 	/**
 	 * Create and initialize a global engine instance.

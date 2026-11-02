@@ -9,10 +9,6 @@
 void CEngineModule::MountModule()
 {
 	GEngine = NewObject<CEngine>();
-	if (GEngine)
-	{
-		GEngine->Initialize();
-	}
 }
 
 void CEngineModule::DetachModule()
@@ -20,9 +16,9 @@ void CEngineModule::DetachModule()
 	if (GEngine)
 	{
 		GEngine->Shutdown();
+
+		DestroyObject(GEngine);
 	}
-	
-	DestroyObject(GEngine);
 }
 
 IMPLEMENT_MODULE(CEngineModule, Engine)

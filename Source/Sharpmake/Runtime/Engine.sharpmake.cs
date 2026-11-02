@@ -15,12 +15,13 @@ public class EngineModule() : RuntimeModule("Engine")
 		// Public dependencies
 		{
 			conf.AddPublicDependency<CoreModule>(target);
-			conf.AddPublicDependency<SDL3Module>(target);
 		}
-		
+
 		// Private dependencies
 		{
-			// ...
+			conf.AddPrivateDependency<RendererModule>(target);
+			
+			conf.AddHiddenDependency<DebugGUIModule>(target);
 		}
 	}
 }

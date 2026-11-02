@@ -19,7 +19,7 @@ int32 GuardedMain()
 		}
 	} CleanupGuard;
 	
-	int32 ErrorLevel = GLaunchContext.Configure();
+	int32 ErrorLevel = GLaunchContext.PreInitialize();
 	if (ErrorLevel != 0)
 	{
 		return ErrorLevel;
@@ -46,7 +46,7 @@ int32 SDL_main(int32 ArgC, TCHAR* ArgV[])
 		//@TODO: crash reporting
 		
 		// Run the guarded code.
-		ErrorLevel = GuardedMain( );
+		ErrorLevel = GuardedMain();
 	}
 	// __except(  )
 	{

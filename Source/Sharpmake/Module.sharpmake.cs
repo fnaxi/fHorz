@@ -9,6 +9,23 @@ using System.Linq;
 
 [module: Include("Misc.sharpmake.cs")]
 
+public static class ConfigurationExtensions
+{
+	public static void AddExposedDependency<TModule>(this Project.Configuration conf, FlareTarget target) where TModule : FlareProject
+	{
+		// toolkit modules are not loaded in the game build
+		if (typeof(TModule) == typeof(ToolkitModule) && target.Build != EBuild.Toolkit) return;
+		
+		conf.AddPublicDependency<TModule>(target);
+	}
+	public static void AddHiddenDependency<TModule>(this Project.Configuration conf, FlareTarget target) where TModule : FlareProject
+	{
+		if (typeof(TModule) == typeof(ToolkitModule) && target.Build != EBuild.Toolkit) return;
+		
+		conf.AddPrivateDependency<TModule>(target);
+	}
+}
+
 public abstract class FlareProject : Project
 {
 	public FlareProject(string InName) : base(typeof(FlareTarget))
@@ -163,16 +180,21 @@ public abstract class RuntimeModule(string InName, EModuleType InModType = EModu
 	}
 }
 
+public abstract class ToolkitModule(string InName, EModuleType InModType = EModuleType.Plain)
+	: ModuleBase(InName, EModuleGroup.Toolkit, InModType)
+{
+	public override void ConfigureAll(Project.Configuration conf, FlareTarget target)
+	{
+		base.ConfigureAll(conf, target);
+
+		conf.SolutionFolder = "Toolkit";
+	}
+}
+
 public abstract class ThirdPartyModule : FlareProject
 {
-	private string IncludeDirectory;
-	private string SourceDirectory;
-
-	public ThirdPartyModule(string InName, string InIncludeDirectory = "include", string InSourceDirectory = "source") : base(InName)
+	public ThirdPartyModule(string InName) : base(InName)
 	{
-		IncludeDirectory	= InIncludeDirectory;
-		SourceDirectory		= InSourceDirectory;
-
 		SourceRootPath		= Path.Combine("[project.SharpmakeCsPath]", "..", "..", "..", "Source", "ThirdParty", Name);
 	}
 	
@@ -183,7 +205,6 @@ public abstract class ThirdPartyModule : FlareProject
 		conf.SolutionFolder	= "ThirdParty";
 		conf.Output			= Configuration.OutputType.Lib;
 
-		conf.IncludePaths.Add(Path.Combine(SourceRootPath, IncludeDirectory));
 		//conf.IncludePrivatePaths.Add(Path.Combine(SourceRootPath, SourceDirectory));
 	}
 }

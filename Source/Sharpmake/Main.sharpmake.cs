@@ -1,28 +1,41 @@
-// CopyRight FlareHorz Team. All Rights Reserved.
+﻿// CopyRight FlareHorz Team. All Rights Reserved.
 
 using System.IO;
 using Sharpmake;
 
+[module: Include("Runtime/Renderer.sharpmake.cs")]
 [module: Include("Runtime/Core.sharpmake.cs")]
+[module: Include("Runtime/Engine.sharpmake.cs")]
 [module: Include("Runtime/Launch.sharpmake.cs")]
 
-[module: Include("Runtime/Engine.sharpmake.cs")]
+[module: Include("Toolkit/DebugGUI.sharpmake.cs")]
 
 [module: Include("ThirdParty/SDL3.sharpmake.cs")]
+[module: Include("ThirdParty/ImGui.sharpmake.cs")]
 
 [module: Include("Rules.sharpmake.cs")]
 
 [Generate]
 public class FlareHorzSolution : Solution
 {
-	public void RegisterProjects(Solution.Configuration conf, FlareTarget target)
+	public void RegisterProjects(Solution.Configuration conf, FlareTarget target) // Maintain the structure for GenerateModule.bat to work correctly
 	{
 		// Runtime
 		{
 			conf.AddProject<CoreModule>(target);
-			conf.AddProject<LaunchModule>(target);
-
 			conf.AddProject<EngineModule>(target);
+			conf.AddProject<LaunchModule>(target);
+			conf.AddProject<RendererModule>(target);
+		}
+		
+		// Toolkit
+		{
+			conf.AddProject<DebugGUIModule>(target);
+		}
+
+		// Third-Party
+		{
+			conf.AddProject<ImGuiModule>(target);
 		}
 	}
 
@@ -65,3 +78,4 @@ public static class Main
 		arguments.Generate<RulesSolution>();
 	}
 }
+

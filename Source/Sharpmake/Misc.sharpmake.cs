@@ -38,6 +38,7 @@ public enum EModuleType
 public enum EModuleGroup
 {
 	Runtime,
+	Toolkit,
 	ThirdParty
 }
 

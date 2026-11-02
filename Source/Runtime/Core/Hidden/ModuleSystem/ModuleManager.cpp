@@ -24,7 +24,7 @@ IModuleInterface* CModuleManager::GetModule(const SName Name)
 	const TSharedPtr<CModuleInfo> ModuleInfo = FindModule(Name);
 	if (!ModuleInfo || !ModuleInfo->bReady)
 	{
-		FH_LOG(Error, lModuleManager, "Module %s is not mounted!", *Name)
+		FH_LOG(Error, lModuleManager, "Tried to get interface for unmounted module %s!", *Name)
 		return nullptr;
 	}
 	
@@ -42,7 +42,7 @@ IModuleInterface* CModuleManager::MountModule(const SName Name)
 
 	if (ModuleInfo->bWasDetachedAtShutdown)
 	{
-		FH_LOG(Error, lModuleManager, "Module %s was detached at shutdown!", *Name)
+		FH_LOG(Error, lModuleManager, "Can't mount module %s because it was detached at shutdown!", *Name)
 		return nullptr;
 	}
 
@@ -67,7 +67,7 @@ IModuleInterface* CModuleManager::MountModule(const SName Name)
 IModuleInterface* CModuleManager::MountModuleEnsured(const SName Name)
 {
 	IModuleInterface* ModuleInterface = MountModule(Name);
-	STRICT_ENSURE_M(ModuleInterface, "Failed to mount %s module!", *Name);
+	ENSURE_STRICT_M(ModuleInterface, "Failed to mount %s module!", *Name);
 	
 	return ModuleInterface;
 }
@@ -107,7 +107,7 @@ void CModuleManager::RegisterModule(const TCHAR* Name, const CInitializeModuleFu
 	}
 	else
 	{
-		FH_MISC_LOG(Error, "The module %s was not constructed properly!", Name)
+		FH_MISC_LOG(Error, "The module %s was not initialized properly!", Name)
 	}
 }
 

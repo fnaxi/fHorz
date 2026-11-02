@@ -21,9 +21,9 @@ CCommandLine& CCommandLine::Get()
 	return Instance;
 }
 
-void CCommandLine::Initialize(int32 ArgC, TCHAR* ArgV[])
+void CCommandLine::Initialize(const int32 ArgC, TCHAR* ArgV[])
 {
-	if (ArgC <= 0 || !ArgV) return;
+	if (ArgC <= 1 || !ArgV) return;
 
 	SIZE_T TotalLength = 0;
 	for (int32 i = 0; i < ArgC; ++i)

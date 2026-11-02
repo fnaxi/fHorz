@@ -13,9 +13,7 @@ public:
 	virtual ~CEngine() = default;
 	
 	int32	Initialize();
-
 	void	Tick();
-
 	void	Shutdown();
 
 	/**
@@ -25,17 +23,25 @@ public:
 	void	RequestExit(const TCHAR* Reason);
 
 	FORCEINLINE bool IsExitRequested() const arrow (bRequestingExit)
-
+	
 private:
+	void	PullInput();
+	void	Update(float DeltaTime);
+	void	Render();
+
+	class CRendererModule* Renderer;
+
+	int32 WindowWidth = 1280;
+	int32 WindowHeight = 720;
 	struct SDL_Window* Window;
-	struct SDL_Renderer* Renderer;
+	
+	uint64 LastTickTime = 0;
+
+	//@TODO: CInputManager
+	const bool* KeysState;
 	
 	/** Indicates that main loop should be exited at the end of the current iteration */
 	bool bRequestingExit = false;
-
-	void	PullInput();
-	void	Update();
-	void	Render();
 };
 
 extern ENGINE_API CEngine* GEngine;

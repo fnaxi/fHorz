@@ -64,7 +64,7 @@ namespace Flare::Core::Private
 		} (!!(Expression)))
 
 	/** Triggers a breakpoint and crashes the program. */
-	#define STRICT_ENSURE(Expression) \
+	#define ENSURE_STRICT(Expression) \
 		do { \
 			if (!(Expression)) \
 			{ \
@@ -72,10 +72,10 @@ namespace Flare::Core::Private
 				{ \
 					PLATFORM_BREAK(); \
 				} \
-				Flare::Core::Private::AssertionLog(true, "STRICT_ENSURE failed: \"%s\" at %s:%d", #Expression, __FILE__, __LINE__); \
+				Flare::Core::Private::AssertionLog(true, "ENSURE_STRICT failed: \"%s\" at %s:%d", #Expression, __FILE__, __LINE__); \
 			} \
 		} while(0)
-	#define STRICT_ENSURE_M(Expression, Message, ...) \
+	#define ENSURE_STRICT_M(Expression, Message, ...) \
 		do { \
 			if (!(Expression)) \
 			{ \
@@ -87,7 +87,7 @@ namespace Flare::Core::Private
 				TCHAR FormattedMessage[1024]; \
 				STextHelpers::Format(FormattedMessage, 1024, Message, ##__VA_ARGS__); \
 				\
-				Flare::Core::Private::AssertionLog(true, "STRICT_ENSURE failed: \"%s\" at %s:%d / Message: %s", #Expression, __FILE__, __LINE__, FormattedMessage); \
+				Flare::Core::Private::AssertionLog(true, "ENSURE_STRICT failed: \"%s\" at %s:%d / Message: %s", #Expression, __FILE__, __LINE__, FormattedMessage); \
 			} \
 		} while(0)
 #else

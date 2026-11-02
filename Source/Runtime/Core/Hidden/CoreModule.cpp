@@ -8,10 +8,12 @@
 
 void CCoreModule::MountModule()
 {
+	// ...
 }
 
 void CCoreModule::DetachModule()
 {
+	// ...
 }
 
 IMPLEMENT_MODULE(CCoreModule, Core)

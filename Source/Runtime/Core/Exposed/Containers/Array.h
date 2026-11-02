@@ -363,12 +363,12 @@ private:
 
 	[[nodiscard]] ElementType& GetElement(const ArraySizeType Index)
 	{
-		STRICT_ENSURE(IsValidIndex(Index));
+		ENSURE_STRICT(IsValidIndex(Index));
 		return GetData()[Index];
 	}
 	[[nodiscard]] const ElementType& GetElement(const ArraySizeType Index) const
 	{
-		STRICT_ENSURE(IsValidIndex(Index));
+		ENSURE_STRICT(IsValidIndex(Index));
 		return GetData()[Index];
 	}
 	

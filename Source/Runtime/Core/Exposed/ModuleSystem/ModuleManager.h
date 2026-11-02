@@ -34,6 +34,8 @@ public:
 	
 	/** Static that tracks the current mount number. Incremented whenever a new module is mounted. */
 	static int32	CurrentMountOrder;
+
+	//@TODO: dlls
 };
 
 class CModuleManager final
@@ -44,10 +46,13 @@ public:
 	static CModuleManager& Get();
 
 	IModuleInterface* GetModule(SName Name);
+
+	template <typename ModuleType>
+	ModuleType* GetModule(const SName InName) arrow( Cast<ModuleType>(GetModule(InName)) )
 	
 	IModuleInterface* MountModule(SName Name);
 	IModuleInterface* MountModuleEnsured(SName Name);
-
+	
 	void DetachModule(SName Name);
 	void DetachModulesAtShutdown();
 
@@ -55,7 +60,7 @@ public:
 
 	[[nodiscard]] bool IsModuleMounted(SName Name) const;
 
-	[[nodiscard]] int32 GetModuleCount() const arrow( Modules.Num() )
+	[[nodiscard]] int32 GetModuleCount() const arrow (Modules.Num())
 
 private:
 	TMap<SName, TSharedPtr<CModuleInfo>> Modules;
