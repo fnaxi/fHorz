@@ -14,12 +14,12 @@ public class EngineModule() : RuntimeModule("Engine")
 		
 		// Public dependencies
 		{
-			conf.AddPublicDependency<CoreModule>(target);
+			conf.AddExposedDependency<CoreModule>(target);
 		}
 
 		// Private dependencies
 		{
-			conf.AddPrivateDependency<RendererModule>(target);
+			conf.AddHiddenDependency<RendererModule>(target);
 			
 			conf.AddHiddenDependency<DebugGUIModule>(target);
 		}

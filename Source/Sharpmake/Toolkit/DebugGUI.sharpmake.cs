@@ -14,12 +14,12 @@ public class DebugGUIModule() : ToolkitModule("DebugGUI")
 		
 		// Public dependencies
 		{
-			conf.AddPublicDependency<CoreModule>(target);
+			conf.AddExposedDependency<CoreModule>(target);
 		}
 		
 		// Private dependencies
 		{
-			conf.AddPrivateDependency<SDL3Module>(target);
+			conf.AddHiddenDependency<SDL3Module>(target);
 		}
 	}
 }

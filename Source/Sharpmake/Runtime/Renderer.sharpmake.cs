@@ -14,9 +14,9 @@ public class RendererModule() : RuntimeModule("Renderer")
 		
 		// Public dependencies
 		{
-			conf.AddPublicDependency<CoreModule>(target);
+			conf.AddExposedDependency<CoreModule>(target);
 			
-			conf.AddPublicDependency<SDL3Module>(target);
+			conf.AddExposedDependency<SDL3Module>(target);
 		}
 		
 		// Private dependencies
