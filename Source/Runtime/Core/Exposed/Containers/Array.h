@@ -244,6 +244,15 @@ public:
 
 	template <typename PredicateType>
 	[[nodiscard]] ElementType* FindByPredicate(PredicateType Predicate) arrow(FindByPredicate(Predicate))
+
+	template <typename PredicateType>
+	void Sort(PredicateType Predicate)
+	{
+		if (ArrayNum > 1)
+		{
+			std::sort(begin(), end(), Predicate);
+		}
+	}
 	
 	void SetNum(const ArraySizeType NewNum)
 	{

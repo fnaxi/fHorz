@@ -14,9 +14,7 @@ class CModuleInfo
 {
 public:
 	CModuleInfo(IModuleInterface* InInterface)
-		: Module(InInterface)
-		, MountOrder(CurrentMountOrder++)
-	{ }
+		: Module(InInterface) { }
 
 	~CModuleInfo() = default;
 	

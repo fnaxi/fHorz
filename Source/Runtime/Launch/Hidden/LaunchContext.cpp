@@ -19,11 +19,11 @@ int32 CLaunchContext::Initialize()
 {
 	CModuleManager::Get().MountModuleEnsured("Engine");
 	ENSURE_STRICT(GEngine);
-
+	
 	CModuleManager::Get().MountModuleEnsured("Renderer");
 
 #if WITH_TOOLKIT
-	CModuleManager::Get().MountModule("DebugGUI");
+	CModuleManager::Get().MountModuleEnsured("DebugGUI");
 #endif
 	
 	const int32 InitResult = GEngine->Initialize();

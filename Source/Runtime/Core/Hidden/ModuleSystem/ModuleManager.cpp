@@ -57,9 +57,9 @@ IModuleInterface* CModuleManager::MountModule(const SName Name)
 	{
 		Module->MountModule();
 		ModuleInfo->bReady = true;
+		ModuleInfo->MountOrder = CModuleInfo::CurrentMountOrder++;
 
 		FH_LOG(Info, lModuleManager, "Mounted %s module", *Name)
-		
 		return Module;
 	}
 }
@@ -113,35 +113,36 @@ void CModuleManager::RegisterModule(const TCHAR* Name, const CInitializeModuleFu
 
 void CModuleManager::DetachModulesAtShutdown()
 {
-	int32 MaxLoadOrder = 0;
+	struct SModuleDetachEntry
+	{
+		SModuleDetachEntry(const SName InName, const int32 InMountOrder)
+			: Name(InName), MountOrder(InMountOrder) { }
+
+		SName Name;
+		int32 MountOrder;
+	};
+
+	TArray<SModuleDetachEntry> ModuleEntries;
 	for (const TPair<SName, TSharedPtr<CModuleInfo>>& Module : Modules)
 	{
-		MaxLoadOrder = SMath::Max(Module.Value->MountOrder, MaxLoadOrder);
+		if( !!Module.Value && Module.Value->bReady )
+		{
+			ModuleEntries.Add( SModuleDetachEntry(Module.Key, Module.Value->MountOrder) );
+		}
 	}
 
-	TArray<SName> ModuleNames;
-	for (TPair<SName, TSharedPtr<CModuleInfo>>& Module : Modules)
+	ModuleEntries.Sort([](const SModuleDetachEntry& A, const SModuleDetachEntry& B) arrow( A.MountOrder > B.MountOrder ));
+
+	for (const SModuleDetachEntry& Entry : ModuleEntries)
 	{
-		ModuleNames.Add(Module.Key);
-	}
-	
-	for (int32 Order = MaxLoadOrder; Order >= 0; --Order)
-	{
-		for (int32 i = 0; i < ModuleNames.Num(); ++i)
+		if (IsModuleMounted(Entry.Name))
 		{
-			const SName& Name = ModuleNames[i];
-			
-			if (Modules[Name]->MountOrder == Order)
-			{
-				if (IsModuleMounted(Name))
-				{
-					DetachModule(Name);
-				}
-				if (TSharedPtr<CModuleInfo> ModuleInfo = FindModule(Name))
-				{
-					ModuleInfo->bWasDetachedAtShutdown = true;
-				}
-			}
+			DetachModule(Entry.Name);
+		}
+        
+		if (const TSharedPtr<CModuleInfo> ModuleInfo = FindModule(Entry.Name))
+		{
+			ModuleInfo->bWasDetachedAtShutdown = true;
 		}
 	}
 }
