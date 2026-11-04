@@ -113,6 +113,22 @@ public:
 	{
 		Pairs.RemoveAt(Index);
 	}
+
+	template <typename PredicateType>
+	void RemoveAllByPredicate(PredicateType Predicate) //@TODO: revisit this
+	{
+		for (ArraySizeType i = 0; i < Pairs.Num(); /* ... */)
+		{
+			if (Predicate(Pairs[i]))
+			{
+				RemoveAt(i);
+			}
+			else
+			{
+				++i;
+			}
+		}
+	}
 	
 	/**
 	 * Check if map contains the specified key.

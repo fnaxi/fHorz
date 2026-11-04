@@ -4,7 +4,21 @@
 
 #include <functional>
 
+#include "DelegateUtils.h"
 #include "Containers/Map.h"
+
+struct SDelegateHandle
+{
+	SDelegateHandle(const uint64 InIdentifier) : Identifier(InIdentifier) { }
+
+	FORCEINLINE uint64 GetIdentifier() const arrow (Identifier)
+	FORCEINLINE bool IsValid() const arrow (Identifier != 0)
+
+	bool operator==(const SDelegateHandle& Other) const arrow (Other.Identifier == Identifier)
+	
+private:
+	uint64 Identifier = 0;
+};
 
 template <typename Signature>
 class TMulticastDelegate;
@@ -13,35 +27,72 @@ template <typename ReturnType, typename... ArgTypes>
 class TMulticastDelegate<ReturnType(ArgTypes...)>
 {
 	using CallbackType = std::function<ReturnType(ArgTypes...)>;
-	using HandleType = uint64;
+	using SCallbackEntry = TCallbackEntry<CallbackType>;
 
 public:
-	HandleType Subscribe(CallbackType Callback)
+	/** Binds a lambda or static function. */
+	SDelegateHandle Subscribe(CallbackType Callback)
 	{
-		HandleType Handle = CurrentHandleIndex++;
+		SDelegateHandle Handle = SDelegateHandle(CurrentHandleIndex++);
 		
-		Callbacks.Add(Handle, SMemory::MoveTemp(Callback));
+		Callbacks.Add(Handle, SCallbackEntry{ SMemory::MoveTemp(Callback), nullptr });
 		return Handle;
 	}
-	void Unsubscribe(HandleType Handle)
+	
+	/** Binds a callback method. */
+	template <typename ClassType>
+	SDelegateHandle Subscribe(ClassType* Object, ReturnType (ClassType::*Method)(ArgTypes...))
+	{
+		SDelegateHandle Handle = SDelegateHandle(CurrentHandleIndex++);
+       
+		CallbackType Callback = [Object, Method](ArgTypes... Args) {
+			(Object->*Method)(Args...);
+		};
+       
+		Callbacks.Add(Handle, SCallbackEntry{ SMemory::MoveTemp(Callback), Object });
+		return Handle;
+	}
+	
+	template <typename ClassType>
+	SDelegateHandle Subscribe(const ClassType* Object, ReturnType (ClassType::*Method)(ArgTypes...) const)
+	{
+		SDelegateHandle Handle = SDelegateHandle(CurrentHandleIndex++);
+       
+		CallbackType Callback = [Object, Method](ArgTypes... Args) {
+			(Object->*Method)(Args...);
+		};
+       
+		Callbacks.Add(Handle, SCallbackEntry{ SMemory::MoveTemp(Callback), Object });
+		return Handle;
+	}
+	
+	void Unsubscribe(SDelegateHandle Handle)
 	{
 		Callbacks.Remove(Handle);
 	}
 
-	void Clear()
+	void UnsubscribeAll()
 	{
 		Callbacks.Clear();
+	}
+
+	/** Unbinds all callbacks associated with the passed object. */
+	void UnsubscribeAll(const void* Object)
+	{
+		if (!Object) return;
+		
+		Callbacks.RemoveAllByPredicate([Object](const TPair<SDelegateHandle, SCallbackEntry>& Pair) arrow( Pair.Value.Object == Object ));
 	}
 	
 	void Broadcast(ArgTypes... Args) const
 	{
-		for (TPair<HandleType, CallbackType> Callback : Callbacks)
+		for (TPair<SDelegateHandle, SCallbackEntry> Callback : Callbacks)
 		{
-			Callback.Value(Args...);
+			Callback.Value.Callback(Args...);
 		}
 	}
 
 private:
-	TMap<HandleType, CallbackType> Callbacks;
-	HandleType CurrentHandleIndex = 0;
+	TMap<SDelegateHandle, SCallbackEntry> Callbacks;
+	uint64 CurrentHandleIndex = 0;
 };

@@ -20,8 +20,6 @@ public class EngineModule() : RuntimeModule("Engine")
 		// Private dependencies
 		{
 			conf.AddHiddenDependency<RendererModule>(target);
-			
-			conf.AddHiddenDependency<DebugGUIModule>(target);
 		}
 	}
 }

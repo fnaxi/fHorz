@@ -23,7 +23,7 @@ int32 CLaunchContext::Initialize()
 	CModuleManager::Get().MountModuleEnsured("Renderer");
 
 #if WITH_TOOLKIT
-	CModuleManager::Get().MountModuleEnsured("DebugGUI");
+	CModuleManager::Get().MountModule("DebugGUI");
 #endif
 	
 	const int32 InitResult = GEngine->Initialize();

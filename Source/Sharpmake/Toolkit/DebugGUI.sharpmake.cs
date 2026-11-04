@@ -19,6 +19,10 @@ public class DebugGUIModule() : ToolkitModule("DebugGUI")
 		
 		// Private dependencies
 		{
+			conf.AddHiddenDependency<EngineModule>(target);
+			conf.AddHiddenDependency<RendererModule>(target);
+
+			conf.AddHiddenDependency<ImGuiModule>(target);
 			conf.AddHiddenDependency<SDL3Module>(target);
 		}
 	}

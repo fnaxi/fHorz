@@ -6,6 +6,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_render.h>
 
+#include "EngineDelegates.h"
 #include "RendererModule.h"
 #include "Logging/Logger.h"
 #include "ModuleSystem/ModuleManager.h"
@@ -22,23 +23,30 @@ int32 CEngine::Initialize()
 		return false;
 	}
 
-	Window = SDL_CreateWindow("fHorz Runtime", WindowWidth, WindowHeight, SDL_WINDOW_RESIZABLE); // SDL_WINDOW_FULLSCREEN
+	constexpr SDL_WindowFlags WindowFlags = SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY; // SDL_WINDOW_FULLSCREEN
+	
+	Window = SDL_CreateWindow("fHorz Runtime", WindowWidth, WindowHeight, WindowFlags);
 	if (!Window)
 	{
 		FH_LOG(Error, lEngine, "Failed to create the window!")
 		return false;
 	}
-	FH_LOG(Info, lEngine, "Created the window with %dx%d resolution", WindowWidth, WindowHeight)
 
-	//@TODO: input manager
-	{
-		KeysState = SDL_GetKeyboardState(nullptr);
-	}
+	// SDL_SetWindowPosition(Window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+	
+	FH_LOG(Info, lEngine, "Created the window with %dx%d resolution", WindowWidth, WindowHeight)
+	SEngineDelegates::OnWindowCreated.Broadcast();
 	
 	Renderer = CModuleManager::Get().GetModule<CRendererModule>("Renderer");
 	ENSURE_STRICT(Renderer);
 	
 	Renderer->Initialize(Window);
+	SDL_ShowWindow(Window);
+	
+	//@TODO: input manager
+	{
+		KeysState = SDL_GetKeyboardState(nullptr);
+	}
 	
 	FH_LOG(Info, lEngine, "Engine initialized")
 	return 0;
@@ -53,19 +61,13 @@ void CEngine::Tick()
 		return;
 	}
 	
-	const float DeltaTime = static_cast<float>(TickTime - LastTickTime) / 1000000000.0f;
+	const float DeltaTime = static_cast<float>(TickTime - LastTickTime) / (1000.0f * 1000.0f * 1000.0f);
 	LastTickTime = TickTime;
 
-	PullInput();
-	Update(DeltaTime);
-	Render();
-}
-
-void CEngine::PullInput()
-{
 	SDL_Event Event;
 	while (SDL_PollEvent(&Event))
 	{
+		SEngineDelegates::OnProcessEvent.Broadcast(&Event);
 		switch (Event.type)
 		{
 		case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
@@ -78,14 +80,23 @@ void CEngine::PullInput()
 			break;
 		}
 	}
+	
+	PullInput();
+	Update(DeltaTime);
+	Render();
 }
 
-void CEngine::Update(const float DeltaTime)
+void CEngine::PullInput()
 {
 	if (KeysState[SDL_SCANCODE_ESCAPE])
 	{
 		RequestExit("SDL_SCANCODE_ESCAPE pressed");
 	}
+}
+
+void CEngine::Update(const float DeltaTime)
+{
+	// ...
 }
 
 void CEngine::Render()

@@ -14,6 +14,11 @@ public class ImGuiModule() : ThirdPartyModule("ImGui")
 	{
 		base.ConfigureAll(conf, target);
 		
+		conf.AddPrivateDependency<SDL3Module>(target);
+		conf.AddPrivateDependency<freetypeModule>(target);
+		
 		conf.IncludePaths.Add( SourceRootPath );
+        
+        conf.TargetFileName = "[project.Name]-[target.Platform]";
 	}
 }

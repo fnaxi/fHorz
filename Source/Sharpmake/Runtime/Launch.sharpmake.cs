@@ -24,6 +24,11 @@ public class LaunchModule() : RuntimeModule("Launch", EModuleType.Launch)
 			// for SDL_main()
 			conf.AddHiddenDependency<SDL3Module>(target);
 		}
+
+		// Static module registration
+		{
+			conf.AddHiddenDependency<DebugGUIModule>(target);
+		}
 		
 		conf.TargetFileName = "fHorz-[target.Conf]-[target.Build]-[target.Platform]";
 	}

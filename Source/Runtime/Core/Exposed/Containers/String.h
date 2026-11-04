@@ -15,7 +15,6 @@ class CString
 	using CharType = TCHAR;
 	
 public:
-
 	enum : uint8
 	{
 		NULL_TERMINATOR = '\0',

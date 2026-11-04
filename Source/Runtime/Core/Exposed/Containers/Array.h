@@ -328,7 +328,6 @@ public:
 	[[nodiscard]] FORCEINLINE const ElementType* GetData() const arrow (Data)
 	
 private:
-	
 	ElementType* Data;
 
 	/** Current number of elements in the array. */
@@ -404,7 +403,6 @@ public:
 	----------------------------------------------------------------------------*/
 
 	ElementType& operator[](const ArraySizeType Index) arrow( GetElement(Index) )
-	
 	const ElementType& operator[](const ArraySizeType Index) const arrow( GetElement(Index) )
 
 	bool operator==(const TArray& Other) const

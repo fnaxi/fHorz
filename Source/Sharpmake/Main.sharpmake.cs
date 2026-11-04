@@ -12,6 +12,7 @@ using Sharpmake;
 
 [module: Include("ThirdParty/SDL3.sharpmake.cs")]
 [module: Include("ThirdParty/ImGui.sharpmake.cs")]
+[module: Include("ThirdParty/freetype.sharpmake.cs")]
 
 [module: Include("Rules.sharpmake.cs")]
 

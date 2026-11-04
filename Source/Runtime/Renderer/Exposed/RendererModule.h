@@ -23,5 +23,5 @@ public:
 	constexpr int32 GetLogicalWindowHeight() arrow (960)
 	
 private:
-	struct SDL_Renderer* RendererHandle;
+	struct SDL_Renderer* Handle;
 };
